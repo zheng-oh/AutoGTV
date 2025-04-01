@@ -1,0 +1,20 @@
+data:
+  image_dir: './training_141'
+  #mask_dir: './training_141_'  # 设置为 null 或留空表示没有掩码数据
+  mask_dir: null  # 设置为 null 或留空表示没有掩码数据
+  target_depth: 100
+output_dir: './predictions/'
+slice_builder:
+  name: 'SliceBuilder'
+  patch_shape: [50, 256, 256]
+  stride_shape: [50, 256, 256]
+model:
+  name: 'UNet3D'
+  in_channels: 1
+  out_channels: 2
+  final_sigmoid: false
+  f_maps: 8
+model_path: './models/best.pytorch'
+device: 'cpu'
+visualization:
+  threshold: 0.5
