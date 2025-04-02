@@ -1,9 +1,9 @@
 data:
-  image_dir: './training_141'
+  image_dir: './test/image/'  # 测试数据目录
   #mask_dir: './training_141_'  # 设置为 null 或留空表示没有掩码数据
   mask_dir: null  # 设置为 null 或留空表示没有掩码数据
   target_depth: 100
-output_dir: './predictions/'
+output_dir: './test/gtv/'
 slice_builder:
   name: 'SliceBuilder'
   patch_shape: [50, 256, 256]

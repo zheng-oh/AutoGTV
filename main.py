@@ -12,7 +12,9 @@ from matplotlib.widgets import Slider
 import yaml
 import logging
 
+
 logger = utils.get_logger('UNet3DPredictor')
+sample_name = os.getenv("SAMPLE_NAME", "default_value")
 
 class UNet3DPredictor:
     def __init__(self, config_path="./pred_config.yaml"):
@@ -188,9 +190,14 @@ class UNet3DPredictor:
         else:
             full_pred_segmentation = pred_segmentation
 
-        # 创建保存DICOM序列的文件夹
-        dicom_output_dir = self.output_dir / f'{self.dir_img.name}_pred_dicom'
+
+        # 创建保存DICOM序列的文件夹，命名为 result_ + 当前时间
+        dicom_output_dir = self.output_dir / f'{sample_name}'
         dicom_output_dir.mkdir(parents=True, exist_ok=True)
+
+        # 创建保存DICOM序列的文件夹
+        # dicom_output_dir = self.output_dir / f'{self.dir_img.name}_pred_dicom'
+        # dicom_output_dir.mkdir(parents=True, exist_ok=True)
 
         # 为每个切片生成DICOM文件
         for i, slice_ds in enumerate(ct_slices):
@@ -210,7 +217,7 @@ class UNet3DPredictor:
         input_patches = torch.from_numpy(patches).float().unsqueeze(1).to(self.device)
         
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        output_file = self.output_dir / f'{self.dir_img.name}_pred.h5'
+        output_file = self.output_dir / f'{sample_name}.h5'
 
         with torch.no_grad():
             logger.info("Starting patch-based prediction...")
@@ -230,7 +237,7 @@ class UNet3DPredictor:
         # 新增：保存预测结果为DICOM序列
         self.save_prediction_as_dicom(data, full_prediction)
 
-        self.visualize(data, full_prediction, output_file)
+        #self.visualize(data, full_prediction, output_file)
 
     def visualize(self, data, prediction, output_file):
         pred_segmentation = np.argmax(prediction, axis=0) if prediction.shape[0] > 1 else (prediction[0] > self.threshold).astype(np.uint8)
@@ -304,7 +311,7 @@ class UNet3DPredictor:
             raise
 
 def main():
-    predictor = UNet3DPredictor(config_path="./pred_config.yaml")
+    predictor = UNet3DPredictor(config_path="./test_config.yaml")
     predictor.run()
 
 if __name__ == '__main__':

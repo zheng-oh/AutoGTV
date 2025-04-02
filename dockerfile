@@ -26,11 +26,15 @@ WORKDIR /workspace/
 RUN pip install -e .
 
 # Copy the source code into the container
-COPY . /workspace/
+COPY models /workspace/models
+COPY main.py /workspace/
+COPY test_config.yaml /workspace/
+
+#COPY . /workspace/
 
 # Set environment variables
 ENV PYTHONPATH=/workspace
-
+ENV TZ=Asia/Shanghai
 # Expose the port (if needed for web-based visualization)
 EXPOSE 5000
 
