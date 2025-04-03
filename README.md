@@ -2,7 +2,14 @@
 
 ### docker
 
-#### 测试样本目录为：./test/image/patient001/\*.dcm，名称为patient001，patient001可以自定义修改
+#### ⚠️测试样本目录：
+    test/
+    ├── image/
+    │   └── patient001/
+    │       └── *.dcm (多个DICOM文件)
+    └── gtv/
+        └── (模型预测结果的输出目录)
+名称为patient001，patient001可以自定义修改，测试另外的数据依然需要放到test/image下
 
 ```
 docker run -e SAMPLE_NAME=patient001 -v ./test/image/patient001/:/workspace/test/image/ -v ./test/gtv/:/workspace/test/gtv autogtv
