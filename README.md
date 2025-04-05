@@ -17,7 +17,7 @@ docker pull zxingcc/autogtv:latest
 #### 3. docker运行测试
 
 ```
-docker run -e SAMPLE_NAME=patient001 -v ./test/image/patient001/:/workspace/test/image/ -v ./test/gtv/:/workspace/test/gtv autogtv
+docker run -e SAMPLE_NAME=patient001 -v ./test/image/patient001/:/workspace/test/image/ -v ./test/gtv/:/workspace/test/gtv zxingcc/autogtv
 ```
 
 #### 4.可视化结果
